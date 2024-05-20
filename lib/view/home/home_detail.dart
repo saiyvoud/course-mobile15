@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shopgood/home/widget/homedetail_item.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:shopgood/view/home/widget/homedetail_item.dart';
 
 class HomeDetail extends StatefulWidget {
   const HomeDetail({super.key});
@@ -9,6 +10,7 @@ class HomeDetail extends StatefulWidget {
 }
 
 class _HomeDetailState extends State<HomeDetail> {
+
   List<String> data = [
     "Size: S",
     "Size: M",
@@ -17,6 +19,7 @@ class _HomeDetailState extends State<HomeDetail> {
     "Size: X2L",
   ];
   int currenIndex = 0;
+
   onTap(index) {
     setState(() {
       currenIndex = index;
@@ -129,12 +132,90 @@ class _HomeDetailState extends State<HomeDetail> {
                               ),
                             );
                           }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/shipping-fast.svg",
+                            height: 25,
+                            color: Colors.green,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "ລາຍລະອຽດການຈັດສົ່ງ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "labubu lลาบูบู้ น่ารัก อุปกรณ์ตุ๊กตา ตุ๊กตา ของขวัญวันเกิด ของเล่นผู้ หญิง หรับบ้านตุ๊กตา CUTE DIY 1 Set อุปกรณ์เสริมของเล่น เสื้อเบลาส์ ชุดเดรส เสื้อผ้าตุ๊กตาผ้า เสื้อผ้าตุ๊กตาผ้า ชุดของเล่นสำหรับเด็ก",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
                     )
                   ],
                 ),
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        //decoration: BoxDecoration(color: Colors.cyan),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    "assets/icons/shopping-cart-add.svg",
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Spacer(),
+              Container(
+                height: 50,
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.green.shade400,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "ຊື້ສິນຄ້າເລີຍ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

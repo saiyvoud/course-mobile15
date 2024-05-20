@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopgood/home/home.dart';
+import 'package:shopgood/view/home/home.dart';
 
 class BottomNavigatorComponent extends StatefulWidget {
   const BottomNavigatorComponent({super.key});

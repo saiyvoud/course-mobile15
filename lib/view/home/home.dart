@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopgood/components/data.dart';
 import 'package:shopgood/components/productComponent.dart';
+import 'package:shopgood/provider/category_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -127,39 +129,44 @@ class _HomeState extends State<Home> {
                 );
               }).toList(),
             ),
-            Container(
-              height: 50,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: category.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        onTap(index);
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 100,
-                        margin: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color:
-                              currenIndex == index ? Colors.red : Colors.amber,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                            child: Text(
-                          category[index],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+            Consumer<CateogryProvider>(
+              builder: (context,categoryProvider, child,) {
+                return Container(
+                  height: 50,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: category.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            categoryProvider.changeCategory(index);
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 100,
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: categoryProvider.currenIndex == index
+                                  ? Colors.red
+                                  : Colors.amber,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                                child: Text(
+                              category[index],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                           ),
-                        )),
-                      ),
-                    );
-                  }),
+                        );
+                      }),
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
