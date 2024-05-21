@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopgood/components/loading.dart';
 import 'package:shopgood/provider/auth_provider.dart';
+import 'package:shopgood/view/auth/register.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,9 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<AuthProvider>(builder: (context, auth, child) {
-        // if(auth.loading == true){
-
-        // }
         return Stack(
           children: [
             Image.asset(
@@ -122,7 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                         horizontal: 15, vertical: 10),
                     child: GestureDetector(
                       onTap: () {
-                        print("ok");
+                        // print("ok");
+                          Loading(context);
+                        //Success(context);
                         auth.Login(
                             phoneNumber: phoneNumber.text,
                             password: password.text);
@@ -152,18 +153,28 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Colors.red.shade200,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          "ລົງທະບຽນ",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => Register(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.red.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            "ລົງທະບຽນ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
