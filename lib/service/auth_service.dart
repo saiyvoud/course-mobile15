@@ -7,6 +7,16 @@ import 'package:shopgood/components/hive_database.dart';
 
 class AuthService {
   final dio = new Dio();
+  Future<bool> exitApp() async {
+    try {
+      await HiveDatabase.deleteProfile();
+      await HiveDatabase.deleteToken();
+      await HiveDatabase.deleteUserId();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   Future<bool> validateToken() async {
     try {
@@ -22,7 +32,30 @@ class AuthService {
     }
   }
 
-  Future<dynamic> refreshToken() async {}
+  Future<bool> refreshToken() async {
+    try {
+      final result = await HiveDatabase.getToken();
+      final data = {
+        "token": result['token'],
+        "refreshToken": result['refreshToken'],
+      };
+      final response = await dio.post(
+        APIPath.refreshToken,
+        data: data,
+      );
+      if (response.data['status'] == true) {
+        await HiveDatabase.saveToken(
+          token: response.data['data']['token'],
+          refresh: response.data['data']['refreshToken'],
+        );
+        return true;
+      }
+      return false;
+    } catch (e) { 
+      return false;
+    }
+  }
+
   Future<dynamic> Login({
     required String phoneNumber,
     required String password,
@@ -65,12 +98,9 @@ class AuthService {
         "phoneNumber": phoneNumber,
         "password": password,
       };
-      final response = await dio.post(
-        APIPath.register,
-        data: data,
-      );
-      print(response.data);
-      if (response.statusCode == 201) {
+      final response = await dio.post(APIPath.register, data: data);
+
+      if (response.data['status'] == true) {
         return response.data;
       }
     } catch (e) {

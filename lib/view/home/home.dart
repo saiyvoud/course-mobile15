@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/components/data.dart';
 import 'package:shopgood/components/productComponent.dart';
+import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/provider/category_provider.dart';
+import 'package:shopgood/router/route.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -25,8 +28,10 @@ class _HomeState extends State<Home> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -43,7 +48,7 @@ class _HomeState extends State<Home> {
         actions: [
           CircleAvatar(
             radius: 15,
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             child: Icon(
               Icons.person,
               color: Colors.white,
@@ -51,12 +56,17 @@ class _HomeState extends State<Home> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundColor: Colors.green,
-              child: Icon(
-                Icons.notification_add,
-                color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+              authProvider.exitApp();
+              },
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.red,
+                child: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -130,7 +140,11 @@ class _HomeState extends State<Home> {
               }).toList(),
             ),
             Consumer<CateogryProvider>(
-              builder: (context,categoryProvider, child,) {
+              builder: (
+                context,
+                categoryProvider,
+                child,
+              ) {
                 return Container(
                   height: 50,
                   child: ListView.builder(

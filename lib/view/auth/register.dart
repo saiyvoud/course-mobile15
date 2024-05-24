@@ -17,24 +17,7 @@ class _RegisterState extends State<Register> {
   TextEditingController lastname = TextEditingController();
   final gobalKey = GlobalKey<FormState>();
   bool _eye = true;
-  Loading() {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            content: Container(
-              height: 50,
-              child: Row(
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(width: 10),
-                  Text("ກຳລັງໂຫຼດ...")
-                ],
-              ),
-            ),
-          );
-        });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -223,20 +206,14 @@ class _RegisterState extends State<Register> {
                       child: GestureDetector(
                         onTap: () {
                           if (gobalKey.currentState!.validate()) {
-                            // auth.Loading(context);
+                            Loading(context);
                             auth.Register(
                               phoneNumber: phoneNumber.text,
                               password: password.text,
                               firstname: firsname.text,
                               lastname: lastname.text,
                             );
-                            // if (auth.loading == true) {
-                            //   Loading();
-                            // } else {
-                            //   setState(() {
-                            //     Navigator.pop(context);
-                            //   });
-                            // }
+                           
                           }
                         },
                         child: Container(

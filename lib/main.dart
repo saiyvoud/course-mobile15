@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/components/hive_database.dart';
+import 'package:shopgood/components/messageHepler.dart';
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/router/route.dart';
 import 'package:shopgood/view/auth/login.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(fontFamily: "NotoSansLao"),
       navigatorKey: NavigationService.navigationKey,
       onGenerateRoute: RouteAPI.generateRoutes,
+      scaffoldMessengerKey: MessageHepler.key,
       home: SplashScreen(),
     );
   }

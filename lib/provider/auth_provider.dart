@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:no_context_navigation/no_context_navigation.dart';
+import 'package:shopgood/components/messageHepler.dart';
 import 'package:shopgood/router/route.dart';
 import 'package:shopgood/service/auth_service.dart';
 
@@ -28,13 +29,16 @@ class AuthProvider extends ChangeNotifier {
       if (result != null) {
         _userData = result;
         _loading = false;
-        print("=======>Success");
+         MessageHepler.showSnackBarMessage(
+          isSuccess: true, message: "ເຂົ້າສູ່ລະບົບສຳເລັດ");
         navService.pushNamedAndRemoveUntil(RouteAPI.home);
         notifyListeners();
       }
     } catch (e) {
       navService.goBack();
-      print("=======>Faild");
+      MessageHepler.showSnackBarMessage(
+          isSuccess: false, message: "ເບີໂທ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
+     
       _loading = false;
       notifyListeners();
     }
@@ -42,6 +46,22 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> validateToken() async {
     final result = await authService.validateToken();
+    if (result == true) {
+      navService.pushNamedAndRemoveUntil(RouteAPI.home);
+    } else {
+      refreshToken();
+    }
+  }
+
+  Future<void> exitApp() async {
+    final result = await authService.exitApp();
+    if (result == true) {
+      navService.pushNamedAndRemoveUntil(RouteAPI.login);
+    }
+  }
+
+  Future<void> refreshToken() async {
+    final result = await authService.refreshToken();
     if (result == true) {
       navService.pushNamedAndRemoveUntil(RouteAPI.home);
     } else {
@@ -67,12 +87,16 @@ class AuthProvider extends ChangeNotifier {
       navService.goBack();
       if (result != null) {
         _loading = false;
-        print("=======>Success");
+        MessageHepler.showSnackBarMessage(
+          isSuccess: true, message: "ລົງທະບຽນສຳເລັດ");
         navService.pushNamedAndRemoveUntil(RouteAPI.login);
         notifyListeners();
       }
     } catch (e) {
-      print("=======>Faild");
+     
+      navService.goBack();
+        MessageHepler.showSnackBarMessage(
+          isSuccess: false, message: "ລົງທະບຽນບໍ່ສຳເລັດ");
       _loading = false;
       notifyListeners();
     }
