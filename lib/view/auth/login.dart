@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopgood/components/bottomNavigator.dart';
 import 'package:shopgood/components/loading.dart';
+
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/view/auth/register.dart';
+import 'package:shopgood/view/home/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -121,12 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                         horizontal: 15, vertical: 10),
                     child: GestureDetector(
                       onTap: () {
-                        // print("ok");
-                          Loading(context);
-                        //Success(context);
                         auth.Login(
                             phoneNumber: phoneNumber.text,
                             password: password.text);
+  
+                          Loading(context);
+              
                       },
                       child: Container(
                         height: 50,
