@@ -24,7 +24,7 @@ void main() async {
         create: (_) => AuthProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => CateogryProvider(),
+        create: (_) => CateogryProvider()..getCategory(),
       ),
       ChangeNotifierProvider(
         create: (_) => BannerProvider()..getAllBanner(),

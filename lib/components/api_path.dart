@@ -6,4 +6,6 @@ class APIPath {
   static String refreshToken = "${baseUrl}/user/refreshToken";
   //---------- banner ------------
   static String getAllBanner = "${baseUrl}/banner/getAll";
+  //---------- category --------
+  static String getAllCategory = "${baseUrl}/category/getAll";
 }

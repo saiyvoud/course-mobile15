@@ -2,9 +2,26 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:shopgood/components/api_path.dart';
+import 'package:shopgood/models/category_model.dart';
 
 class CategoryService {
-  final dio = Dio();
+  final dio = new Dio();
+  Future<List<CategoryModel>?> getCategory() async {
+    try {
+      final response = await dio.get(APIPath.getAllCategory);
+      if (response.data['status'] == true) {
+        final categories = categoryModelFromJson(
+          jsonEncode(response.data['data']),
+        );
+        return categories;
+      }
+    } catch (e) {
+      rethrow; // return + print
+    }
+    return null;
+  }
+
   Future<List<dynamic>?> getProductByHttp(username, password) async {
     try {
       http.post(

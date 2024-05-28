@@ -25,7 +25,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
               shrinkWrap: true,
               primary: false,
               scrollDirection: Axis.horizontal,
-              itemCount: category.length,
+              itemCount: categoryProvider.categories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -43,7 +43,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                     ),
                     child: Center(
                         child: Text(
-                      category[index],
+                      categoryProvider.categories[index].title.toString(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shopgood/models/category_model.dart';
+import 'package:shopgood/service/category_service.dart';
 
 class CateogryProvider extends ChangeNotifier {
   
@@ -20,10 +22,29 @@ List<dynamic> product = [
 ];
 
  int _currenIndex = 0;
+ bool _loading = false;
+ List<CategoryModel> _categories = [];
+ final categoryService = CategoryService();
  int get currenIndex => _currenIndex;
+ bool get loading => _loading;
+ List<CategoryModel> get categories => _categories;
    changeCategory(index)  {
     _currenIndex = index;
     notifyListeners();
+  }
+  Future<void> getCategory ()async{
+    _loading = true;
+    try {
+      final result = await categoryService.getCategory();
+      if(result!.length > 0){
+       _categories = result;
+       _loading = false;
+       notifyListeners();
+      }
+    } catch (e) {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
 }
