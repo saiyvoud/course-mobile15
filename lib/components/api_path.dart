@@ -8,4 +8,7 @@ class APIPath {
   static String getAllBanner = "${baseUrl}/banner/getAll";
   //---------- category --------
   static String getAllCategory = "${baseUrl}/category/getAll";
+  // --------- product ------
+  static String getProductAll = "${baseUrl}/product/getAll";
+   static String getProductByCategory = "${baseUrl}/product/getByCategory/";
 }

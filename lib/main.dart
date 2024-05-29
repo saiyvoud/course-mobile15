@@ -8,6 +8,7 @@ import 'package:shopgood/components/hive_database.dart';
 import 'package:shopgood/components/messageHepler.dart';
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/provider/banner_provider.dart';
+import 'package:shopgood/provider/product_provider.dart';
 import 'package:shopgood/router/route.dart';
 import 'package:shopgood/view/auth/login.dart';
 import 'package:shopgood/provider/category_provider.dart';
@@ -28,6 +29,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => BannerProvider()..getAllBanner(),
+      ),
+       ChangeNotifierProvider(
+        create: (_) => ProductProvider()..getProductAll()
       ),
     ],
     child: MyApp(),

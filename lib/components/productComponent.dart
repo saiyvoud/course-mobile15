@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopgood/provider/product_provider.dart';
 import 'package:shopgood/view/home/widget/home_detail.dart';
 import 'package:shopgood/provider/category_provider.dart';
 
@@ -13,12 +14,22 @@ class ProductComponent extends StatefulWidget {
 class _ProductComponentState extends State<ProductComponent> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CateogryProvider>(
-        builder: (context, categoryProvider, child) {
+    return Consumer<ProductProvider>(
+        builder: (context, productProvider, child) {
+      if (productProvider.loading == true) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (productProvider.products.isEmpty) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       return GridView.builder(
           shrinkWrap: true,
           primary: false,
-          itemCount: 4,
+          itemCount: productProvider.products.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.6,
@@ -45,15 +56,17 @@ class _ProductComponentState extends State<ProductComponent> {
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
+                      // child: Image.network(
+                      //   categoryProvider.product[categoryProvider.currenIndex]
+                      //       ['image'],
+                      // ),
                       child: Image.network(
-                        categoryProvider.product[categoryProvider.currenIndex]
-                            ['image'],
-                      ),
+                          productProvider.products[index]['image']),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "ເສື້ອແຟຣຊັນໃຫມ່ອອກໃຫມ່ນຳເຂົ້າຈາກປະເທດໄທຍ ມີຫລາຍສີໃຫ້ເລືອກ",
+                        productProvider.products[index]['detail'],
                         style: TextStyle(),
                       ),
                     ),
@@ -62,7 +75,7 @@ class _ProductComponentState extends State<ProductComponent> {
                       child: Row(
                         children: [
                           Text(
-                            "120,000 Lak",
+                            "${productProvider.products[index]['price']}Lak",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.red,
