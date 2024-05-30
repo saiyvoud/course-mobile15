@@ -58,7 +58,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                           width: 100,
                           margin: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: categoryProvider.currenIndex == index
+                            color: categoryProvider.currenIndex ==  index
                                 ? Colors.red
                                 : Colors.amber,
                             borderRadius: BorderRadius.circular(10),

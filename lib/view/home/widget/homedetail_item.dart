@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomeDetailItem extends StatefulWidget {
-  const HomeDetailItem({super.key});
+class HomeDetailItem extends StatelessWidget {
+  final String image;
+  const HomeDetailItem({super.key,required this.image});
 
-  @override
-  State<HomeDetailItem> createState() => _HomeDetailItemState();
-}
-
-class _HomeDetailItemState extends State<HomeDetailItem> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Image.network(
-          "https://img.lazcdn.com/g/p/ee75a0cc5511d90e9aedc9f41d9ed284.jpg_200x200q80.jpg_.webp",
+          image.toString(),
           fit: BoxFit.cover,
           width: double.infinity,
         ),

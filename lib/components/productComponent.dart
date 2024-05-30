@@ -41,7 +41,7 @@ class _ProductComponentState extends State<ProductComponent> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomeDetail(),
+                    builder: (context) => HomeDetail(index:index),
                   ),
                 );
               },
