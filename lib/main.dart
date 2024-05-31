@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:no_context_navigation/no_context_navigation.dart';
@@ -17,24 +18,35 @@ import 'package:shopgood/view/auth/splashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   await HiveDatabase().hiveDatabase();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (_) => AuthProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (_) => CateogryProvider()..getCategory(),
-      ),
-      ChangeNotifierProvider(
-        create: (_) => BannerProvider()..getAllBanner(),
-      ),
-       ChangeNotifierProvider(
-        create: (_) => ProductProvider()..getProductAll()
-      ),
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+    path: 'assets/translations',
+    supportedLocales: const [
+      Locale('en', 'US'),
+      Locale('lo', 'LA'),
     ],
-    child: MyApp(),
+    fallbackLocale: const Locale('en', 'US'),
+    saveLocale: true,
+
+    child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CateogryProvider()..getCategory(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BannerProvider()..getAllBanner(),
+        ),
+        ChangeNotifierProvider(
+            create: (_) => ProductProvider()..getProductAll()),
+      ],
+      child: MyApp(),
+    ),
   ));
 }
 
@@ -54,6 +66,9 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: NavigationService.navigationKey,
       onGenerateRoute: RouteAPI.generateRoutes,
       scaffoldMessengerKey: MessageHepler.key,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: SplashScreen(),
     );
   }

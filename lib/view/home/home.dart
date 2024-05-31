@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/components/data.dart';
 import 'package:shopgood/components/productComponent.dart';
+import 'package:shopgood/generated/locale_keys.g.dart';
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/provider/category_provider.dart';
 import 'package:shopgood/router/route.dart';
@@ -31,6 +33,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> changelanguage() async {
+    Locale? currentLocal = EasyLocalization.of(context)!.currentLocale;
+    if (currentLocal == const Locale('en', 'US')) {
+      EasyLocalization.of(context)!.setLocale(const Locale('lo', 'LA'));
+    } else {
+      EasyLocalization.of(context)!.setLocale(const Locale('en', 'US'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -39,7 +50,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.amber,
         leading: Icon(Icons.menu),
         title: Text(
-          "Home",
+          LocaleKeys.home.tr(),
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
@@ -48,12 +59,17 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
         actions: [
-          CircleAvatar(
-            radius: 15,
-            backgroundColor: Colors.green,
-            child: Icon(
-              Icons.person,
-              color: Colors.white,
+          GestureDetector(
+            onTap: (){
+              changelanguage();
+            },
+            child: CircleAvatar(
+              radius: 15,
+              backgroundColor: Colors.green,
+              child: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
             ),
           ),
           Padding(
@@ -89,7 +105,7 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   Text(
-                    "Product",
+                    LocaleKeys.product.tr(),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

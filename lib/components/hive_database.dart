@@ -43,7 +43,7 @@ class HiveDatabase {
     required String profile,
   }) async {
     final userBox = await box!.openBox<Map>('auth');
-    await userBox.put("profile", {
+    await userBox.put("profile", { 
       "data": profile,
     });
     return true;

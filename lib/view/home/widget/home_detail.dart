@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/provider/product_provider.dart';
+import 'package:shopgood/view/cart/cart_detail.dart';
 import 'package:shopgood/view/home/widget/homedetail_item.dart';
 
 class HomeDetail extends StatefulWidget {
@@ -31,16 +32,19 @@ class _HomeDetailState extends State<HomeDetail> {
       currenIndex = index;
     });
   }
-  onChanageAdd(){
+
+  onChanageAdd() {
     setState(() {
       _amount++;
     });
   }
-  onChanageRemove(){
+
+  onChanageRemove() {
     setState(() {
       _amount--;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,12 +236,12 @@ class _HomeDetailState extends State<HomeDetail> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                         
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   onChanageAdd();
                                 },
                                 child: Container(
@@ -264,9 +268,10 @@ class _HomeDetailState extends State<HomeDetail> {
                             ),
                             Text(_amount.toString()),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   onChanageRemove();
                                 },
                                 child: Container(
@@ -293,6 +298,7 @@ class _HomeDetailState extends State<HomeDetail> {
                             ),
                           ],
                         )
+                   
                       ],
                     ),
                   ),
@@ -310,18 +316,28 @@ class _HomeDetailState extends State<HomeDetail> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 50,
-                width: 60,
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    "assets/icons/shopping-cart-add.svg",
-                    color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CartDetail(),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 50,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset(
+                      "assets/icons/shopping-cart-add.svg",
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -348,6 +364,7 @@ class _HomeDetailState extends State<HomeDetail> {
           ),
         ),
       ),
+   
     );
   }
 }
