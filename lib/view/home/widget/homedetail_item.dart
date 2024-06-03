@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shopgood/view/cart/cart_detail.dart';
 
 class HomeDetailItem extends StatelessWidget {
   final String image;
-  const HomeDetailItem({super.key,required this.image});
+  const HomeDetailItem({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +38,26 @@ class HomeDetailItem extends StatelessWidget {
         Positioned(
           top: 35,
           right: 10,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              Icons.favorite,
-              color: Colors.red.shade300,
-              size: 25,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CartDetail(),
+                  ));
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.favorite,
+                color: Colors.red.shade300,
+                size: 25,
+              ),
             ),
           ),
         ),

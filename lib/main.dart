@@ -9,6 +9,7 @@ import 'package:shopgood/components/hive_database.dart';
 import 'package:shopgood/components/messageHepler.dart';
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/provider/banner_provider.dart';
+import 'package:shopgood/provider/cart_provider.dart';
 import 'package:shopgood/provider/product_provider.dart';
 import 'package:shopgood/router/route.dart';
 import 'package:shopgood/view/auth/login.dart';
@@ -30,7 +31,6 @@ void main() async {
     ],
     fallbackLocale: const Locale('en', 'US'),
     saveLocale: true,
-
     child: MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -43,7 +43,11 @@ void main() async {
           create: (_) => BannerProvider()..getAllBanner(),
         ),
         ChangeNotifierProvider(
-            create: (_) => ProductProvider()..getProductAll()),
+          create: (_) => ProductProvider()..getProductAll(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+        ),
       ],
       child: MyApp(),
     ),

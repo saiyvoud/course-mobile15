@@ -18,6 +18,52 @@ class HiveDatabase {
     return box;
   }
 
+  static Future<List<dynamic>?> getCart() async {
+    try {
+      final myBox = await Hive.openBox<Map>('cart');
+      final data = await myBox.values.toList();
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool?> addNewCart({
+    required String productId,
+    required String name,
+    required String detail,
+    required int qty,
+    required int price,
+    required String image,
+  }) async {
+    final myBox = await Hive.openBox<Map>('cart');
+
+    await myBox.add({
+      "productId": productId,
+      "name": name,
+      "detail": detail,
+      "qty": qty,
+      "price": price,
+      "image": image,
+    });
+    await myBox.values.toList();
+
+    return true;
+  }
+
+  static Future<bool?> addQtyCart({
+    required int qty,
+  }) async {
+    final myBox = await Hive.openBox<Map>('cart');
+
+    await myBox.put("cart", {
+      "qty": qty,
+    });
+    await myBox.values.toList();
+
+    return true;
+  }
+
   static Future<dynamic> getProfile() async {
     final userBox = await box!.openBox<Map>('auth');
     final data = await userBox.getAll(['profile']);
@@ -43,7 +89,7 @@ class HiveDatabase {
     required String profile,
   }) async {
     final userBox = await box!.openBox<Map>('auth');
-    await userBox.put("profile", { 
+    await userBox.put("profile", {
       "data": profile,
     });
     return true;

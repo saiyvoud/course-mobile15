@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:shopgood/provider/cart_provider.dart';
+import 'package:shopgood/provider/category_provider.dart';
 
 class CartDetail extends StatefulWidget {
   const CartDetail({super.key});
@@ -9,6 +12,20 @@ class CartDetail extends StatefulWidget {
 }
 
 class _CartDetailState extends State<CartDetail> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CartProvider>(context, listen: false)..getCarts();
+  }
+
+  var sum;
+  calulator(amount, price) {
+    setState(() {
+      sum = amount * price;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,87 +48,100 @@ class _CartDetailState extends State<CartDetail> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: 4,
-                itemBuilder: (item, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        height: 5,
-                        decoration: BoxDecoration(color: Colors.grey.shade100),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(
-                                "https://img.lazcdn.com/g/ff/kf/S896b1f95f47b44629d8d35b0edaf2e3al.jpg_400x400q80.jpg_.webp",
-                                height: 100,
-                              ),
-                            ),
-                            Container(
-                              width: 200,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "ໂທລະສັບ",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "ໂທລະສັບອອກໃຫມ່ງາມສາມາດຖ່າຍຮູບແບບສະເຫນືອນຈິ່ງກັນນ້ຳມີຫລາຍສີ",
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "5,500,000 LAK",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Spacer(),
-                            Column(
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: Colors.red,
-                                    )),
-                              ],
-                            )
-                          ],
+      body: Consumer<CartProvider>(builder: (context, cartProvider, child) {
+        if (cartProvider.loading == true) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: cartProvider.carts.length,
+                  itemBuilder: (item, index) {
+                    final data = cartProvider.carts;
+                    // calulator(data[index]['qty'], data[index]['price']);
+
+                    return Column(
+                      children: [
+                        Container(
+                          height: 5,
+                          decoration:
+                              BoxDecoration(color: Colors.grey.shade100),
                         ),
-                      ),
-                    ],
-                  );
-                })
-          ],
-        ),
-      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.network(
+                                  data[index]['image'].toString(),
+                                  height: 100,
+                                ),
+                              ),
+                              Container(
+                                width: 200,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data[index]['name'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      data[index]['detail'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "${data[index]['price']} LAK",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                            "${data[index]['qty'].toString()} /ຈຳນວນ")
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Spacer(),
+                              Column(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      )),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  })
+            ],
+          ),
+        );
+      }),
       bottomNavigationBar: Container(
         height: 120,
         //decoration: BoxDecoration(color: Colors.cyan),
@@ -121,16 +151,29 @@ class _CartDetailState extends State<CartDetail> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("ລາຄາທັງໝົດ:",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.black),),
+                  child: Text(
+                    "ລາຄາທັງໝົດ:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
                 ),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("20,000,000 LAK",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.red,),),
+                  child: Text(
+                    "${sum.toString()} LAK",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
                 )
               ],
             ),
-              SizedBox(height: 10),
+            SizedBox(height: 10),
             Container(
               height: 50,
               width: 300,
@@ -149,7 +192,6 @@ class _CartDetailState extends State<CartDetail> {
                 ),
               ),
             ),
-            
           ],
         ),
       ),
