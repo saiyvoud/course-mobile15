@@ -3,23 +3,10 @@ import 'dart:io';
 import 'package:shopgood/components/hive_database.dart';
 
 class CartService {
-  Future<List<dynamic>?> getCarts ()async{
+  Future<bool?> deleteCartID({required int id}) async {
     try {
-      final result = await HiveDatabase.getCart();
-      if(result!.length >0){
-        return result;
-      }
-      return null;
-    } catch (e) {
-      rethrow;
-    }
-  }
-  Future<bool?> addQtyCart({
-    required int qty
-  })async{
-    try {
-      final result = await HiveDatabase.addQtyCart(qty: qty);
-      if(result !=null){
+      final result = await HiveDatabase.deleteCartID(id: id);
+      if (result != null) {
         return true;
       }
       return false;
@@ -27,6 +14,43 @@ class CartService {
       rethrow;
     }
   }
+
+  Future<bool?> deleteCartAll() async {
+    try {
+      final result = await HiveDatabase.deleteCartAll();
+      if (result != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<dynamic>?> getCarts() async {
+    try {
+      final result = await HiveDatabase.getCart();
+      if (result!.length > 0) {
+        return result;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool?> addQtyCart({required int qty}) async {
+    try {
+      final result = await HiveDatabase.addQtyCart(qty: qty);
+      if (result != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<bool?> addNewCart({
     required String productId,
     required String name,
@@ -44,7 +68,7 @@ class CartService {
         price: price,
         image: image,
       );
-      if(result !=null){
+      if (result != null) {
         return true;
       }
       return false;

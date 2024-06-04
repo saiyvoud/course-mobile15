@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/provider/cart_provider.dart';
 import 'package:shopgood/provider/category_provider.dart';
+import 'package:shopgood/view/payment/payment.dart';
 
 class CartDetail extends StatefulWidget {
   const CartDetail({super.key});
@@ -21,9 +22,9 @@ class _CartDetailState extends State<CartDetail> {
 
   var sum;
   calulator(amount, price) {
-    setState(() {
-      sum = amount * price;
-    });
+    sum = amount * price;
+
+    print(sum);
   }
 
   @override
@@ -54,6 +55,11 @@ class _CartDetailState extends State<CartDetail> {
             child: CircularProgressIndicator(),
           );
         }
+        if (cartProvider.carts.length == 0) {
+          return Center(
+            child: Text("ຍັງບໍ່ມີຂໍ້ມູນ"),
+          );
+        }
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -63,8 +69,11 @@ class _CartDetailState extends State<CartDetail> {
                   itemCount: cartProvider.carts.length,
                   itemBuilder: (item, index) {
                     final data = cartProvider.carts;
-                    // calulator(data[index]['qty'], data[index]['price']);
 
+                    sum = data[index]['qty'] * data[index]['price'];
+                    // cartProvider.calulatorSum(
+                    //     data[index]['qty'], data[index]['price']);
+                    // sum += data[index]['qty']z * data[index]['price'];
                     return Column(
                       children: [
                         Container(
@@ -122,16 +131,15 @@ class _CartDetailState extends State<CartDetail> {
                                 ),
                               ),
                               Spacer(),
-                              Column(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: Colors.red,
-                                      )),
-                                ],
-                              )
+                              IconButton(
+                                  onPressed: () {
+                                    print("ok");
+                                    cartProvider.deleteCartID(id: index);
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ))
                             ],
                           ),
                         ),
@@ -142,59 +150,68 @@ class _CartDetailState extends State<CartDetail> {
           ),
         );
       }),
-      bottomNavigationBar: Container(
-        height: 120,
-        //decoration: BoxDecoration(color: Colors.cyan),
-        child: Column(
-          children: [
-            Row(
+      bottomNavigationBar:
+          Consumer<CartProvider>(builder: (context, cartP, child) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => Payment()));
+          },
+          child: Container(
+            height: 120,
+            //decoration: BoxDecoration(color: Colors.cyan),
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "ລາຄາທັງໝົດ:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "ລາຄາທັງໝົດ:",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "${sum} LAK",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "${sum.toString()} LAK",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
+                SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade400,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "ຊຳລະເງີນ",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
-            SizedBox(height: 10),
-            Container(
-              height: 50,
-              width: 300,
-              decoration: BoxDecoration(
-                color: Colors.green.shade400,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  "ຊຳລະເງີນ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

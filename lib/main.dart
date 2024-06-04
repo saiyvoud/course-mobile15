@@ -23,6 +23,7 @@ void main() async {
   await Hive.initFlutter();
   await HiveDatabase().hiveDatabase();
   await EasyLocalization.ensureInitialized();
+  await Hive.openBox<Map>('cart');
   runApp(EasyLocalization(
     path: 'assets/translations',
     supportedLocales: const [

@@ -18,6 +18,29 @@ class HiveDatabase {
     return box;
   }
 
+  static Future<bool?> deleteCartID({required int id}) async {
+    try {
+      print("=====>Okkkk");
+      final myBox = await Hive.box<Map>("cart");
+      myBox.deleteAt(id);
+      final result = await myBox.values.toList();
+      print(result);
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<bool?> deleteCartAll() async {
+    try {
+      await Hive.box<Map>("cart").clear();
+
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<List<dynamic>?> getCart() async {
     try {
       final myBox = await Hive.openBox<Map>('cart');
