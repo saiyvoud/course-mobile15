@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "983307047276",
+    "project_id": "shopgood-425412",
+    "storage_bucket": "shopgood-425412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983307047276:android:4f4bac92f3183edf94e349",
+        "android_client_info": {
+          "package_name": "com.shopgood.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl0KiNF5A8pCFI2DJbEJCY4DbrQhVyCt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

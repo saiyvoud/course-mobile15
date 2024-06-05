@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shopgood/provider/auth_provider.dart';
 
@@ -17,17 +21,57 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-  //BitmapDescriptor? icon;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  LocationData? userLocation;
+  BitmapDescriptor? icon;
   @override
   void initState() {
     super.initState();
-    // Provider.of<AuthProvider>(context, listen: false)..getProfile();
-    // Provider.of<AddressProvider>(context, listen: false)..getAddressByUser();
-    // BitmapDescriptor.fromAssetImage(
-    //         ImageConfiguration(size: Size(48, 48)), 'assets/icons/pin.png')
-    //     .then((onValue) {
-    //   icon = onValue;
-    // });
+    _getUserLocation();
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(28, 28)), 'assets/images/logo.png')
+        .then((onValue) {
+      icon = onValue;
+    });
+  }
+  // This function will get user location
+
+  Future<void> _getUserLocation() async {
+    Location location = Location();
+    // Check if location service is enable
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    // Check if permission is granted
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final locationData = await location.getLocation();
+    setState(() {
+      userLocation = locationData;
+    });
+  }
+
+  Set<Marker> myMarKer() {
+    return <Marker>[
+      Marker(
+        markerId: MarkerId('MarkerId'),
+        position: LatLng(userLocation!.latitude!, userLocation!.longitude!),
+        icon: icon!,
+        infoWindow:
+            InfoWindow(title: 'This is a Title', snippet: 'this is a snippet'),
+      ),
+    ].toSet();
   }
 
   final Completer<GoogleMapController> _controller =
@@ -228,20 +272,22 @@ class _PaymentState extends State<Payment> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      height: 120,
-                      decoration: BoxDecoration(color: Colors.amber),
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(17.972582497953702, 102.60786588686393),
-                          zoom: 14.4746,
-                        ),
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                        },
-                      ),
-                    )
+                    userLocation == null
+                        ? Center(child: CircularProgressIndicator())
+                        : Container(
+                            height: 120,
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(userLocation!.latitude!,
+                                    userLocation!.longitude!),
+                                zoom: 14,
+                              ),
+                              markers: myMarKer(),
+                              myLocationEnabled: true,
+                              myLocationButtonEnabled: true,
+                            ),
+                          )
                     // Container(
                     //   height: 120,
                     //   decoration: BoxDecoration(color: primaryColors),
