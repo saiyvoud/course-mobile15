@@ -15,6 +15,21 @@ class AuthProvider extends ChangeNotifier {
   bool get loading => _loading;
   bool get success => _success;
 
+  Future<void> getProfile() async {
+    _loading = true;
+    try {
+      final result = await authService.getProfile();
+      if (result != null) {
+        _loading = false;
+        _userData = result;
+        notifyListeners();
+      }
+    } catch (e) {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> Login({
     required String phoneNumber,
     required String password,
@@ -29,8 +44,9 @@ class AuthProvider extends ChangeNotifier {
       if (result != null) {
         _userData = result;
         _loading = false;
-         MessageHepler.showSnackBarMessage(
-          isSuccess: true, message: "ເຂົ້າສູ່ລະບົບສຳເລັດ");
+        getProfile();
+        MessageHepler.showSnackBarMessage(
+            isSuccess: true, message: "ເຂົ້າສູ່ລະບົບສຳເລັດ");
         navService.pushNamedAndRemoveUntil(RouteAPI.home);
         notifyListeners();
       }
@@ -38,7 +54,7 @@ class AuthProvider extends ChangeNotifier {
       navService.goBack();
       MessageHepler.showSnackBarMessage(
           isSuccess: false, message: "ເບີໂທ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
-     
+
       _loading = false;
       notifyListeners();
     }
@@ -88,14 +104,13 @@ class AuthProvider extends ChangeNotifier {
       if (result != null) {
         _loading = false;
         MessageHepler.showSnackBarMessage(
-          isSuccess: true, message: "ລົງທະບຽນສຳເລັດ");
+            isSuccess: true, message: "ລົງທະບຽນສຳເລັດ");
         navService.pushNamedAndRemoveUntil(RouteAPI.login);
         notifyListeners();
       }
     } catch (e) {
-     
       navService.goBack();
-        MessageHepler.showSnackBarMessage(
+      MessageHepler.showSnackBarMessage(
           isSuccess: false, message: "ລົງທະບຽນບໍ່ສຳເລັດ");
       _loading = false;
       notifyListeners();

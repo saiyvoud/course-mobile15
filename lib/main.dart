@@ -35,7 +35,7 @@ void main() async {
     child: MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
+          create: (_) => AuthProvider()..getProfile(),
         ),
         ChangeNotifierProvider(
           create: (_) => CateogryProvider()..getCategory(),

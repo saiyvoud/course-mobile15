@@ -17,7 +17,17 @@ class AuthService {
       return false;
     }
   }
-
+ Future<dynamic> getProfile()async{
+    try {
+      final result = await HiveDatabase.getProfile();
+      if(result !=null){
+        return result;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+ }
   Future<bool> validateToken() async {
     try {
       final result = await HiveDatabase.getToken();

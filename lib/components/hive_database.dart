@@ -91,6 +91,7 @@ class HiveDatabase {
     final userBox = await box!.openBox<Map>('auth');
     final data = await userBox.getAll(['profile']);
     final respone = jsonDecode(data[0]!['data']);
+    print(respone);
     return respone;
   }
 
