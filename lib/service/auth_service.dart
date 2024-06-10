@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shopgood/components/api_path.dart';
-import 'package:hive/hive.dart';
+
 import 'package:shopgood/components/hive_database.dart';
 
 class AuthService {

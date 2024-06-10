@@ -1,8 +1,8 @@
-import 'dart:io';
+
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/components/hive_database.dart';
@@ -12,7 +12,7 @@ import 'package:shopgood/provider/banner_provider.dart';
 import 'package:shopgood/provider/cart_provider.dart';
 import 'package:shopgood/provider/product_provider.dart';
 import 'package:shopgood/router/route.dart';
-import 'package:shopgood/view/auth/login.dart';
+
 import 'package:shopgood/provider/category_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shopgood/view/auth/splashScreen.dart';

@@ -1,14 +1,13 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:no_context_navigation/no_context_navigation.dart';
+
 import 'package:provider/provider.dart';
-import 'package:shopgood/components/data.dart';
+
 import 'package:shopgood/components/productComponent.dart';
 import 'package:shopgood/generated/locale_keys.g.dart';
 import 'package:shopgood/provider/auth_provider.dart';
-import 'package:shopgood/provider/category_provider.dart';
-import 'package:shopgood/router/route.dart';
+
 import 'package:shopgood/view/home/widget/banner_widget.dart';
 import 'package:shopgood/view/home/widget/category_widget.dart';
 import 'package:shopgood/view/home/widget/search_button.dart';

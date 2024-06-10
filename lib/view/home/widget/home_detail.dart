@@ -1,11 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:shopgood/components/hive_database.dart';
+
 import 'package:shopgood/provider/cart_provider.dart';
 import 'package:shopgood/provider/product_provider.dart';
-import 'package:shopgood/view/cart/cart_detail.dart';
+
 import 'package:shopgood/view/home/widget/homedetail_item.dart';
 
 class HomeDetail extends StatefulWidget {

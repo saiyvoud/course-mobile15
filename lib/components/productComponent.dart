@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopgood/provider/product_provider.dart';
 import 'package:shopgood/view/home/widget/home_detail.dart';
-import 'package:shopgood/provider/category_provider.dart';
+
 
 class ProductComponent extends StatefulWidget {
   const ProductComponent({super.key});

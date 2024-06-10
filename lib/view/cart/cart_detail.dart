@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shopgood/provider/cart_provider.dart';
-import 'package:shopgood/provider/category_provider.dart';
+
 import 'package:shopgood/view/payment/payment.dart';
 
 class CartDetail extends StatefulWidget {
@@ -15,7 +15,7 @@ class CartDetail extends StatefulWidget {
 class _CartDetailState extends State<CartDetail> {
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     Provider.of<CartProvider>(context, listen: false)..getCarts();
   }

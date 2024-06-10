@@ -69,6 +69,9 @@ class CategoryService {
       if (response.statusMessage == "success") {
         return response.data;
       }
-    } catch (e) {}
+      return null;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

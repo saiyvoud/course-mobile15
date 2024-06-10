@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopgood/components/bottomNavigator.dart';
+
 import 'package:shopgood/components/loading.dart';
 
 import 'package:shopgood/provider/auth_provider.dart';
 import 'package:shopgood/view/auth/register.dart';
-import 'package:shopgood/view/home/home.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
